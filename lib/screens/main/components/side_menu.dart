@@ -4,6 +4,8 @@ import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../recipe/recipe.dart';
+
 class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
@@ -23,19 +25,19 @@ class SideMenu extends StatelessWidget {
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));},
           ),
           DrawerListTile(
-            title: "Transaction",
+            title: "dépenses",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesScreen()));},
           ),
           DrawerListTile(
-            title: "Task",
+            title: "Budget",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => BudgetScreen()));},
           ),
           DrawerListTile(
-            title: "Documents",
+            title: "Recette",
             svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeScreen()));},
           ),
           DrawerListTile(
             title: "Store",
