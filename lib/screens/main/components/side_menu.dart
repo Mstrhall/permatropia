@@ -1,3 +1,4 @@
+import 'package:admin/screens/budget/budget.dart';
 import 'package:admin/screens/expenses/expenses.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Task",
             svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => BudgetScreen()));},
           ),
           DrawerListTile(
             title: "Documents",

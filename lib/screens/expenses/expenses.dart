@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:admin/controllers/TokenProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/main/components/side_menu.dart';
+import 'package:admin/services/auth.service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -24,13 +24,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   Future<void> _fetchData() async {
     final url = Uri.parse('https://permatropia-grp1.webturtle.fr/items/transactions');
-/*     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzNWRjNjlmLTM2NzUtNDFlYy05NjgwLTI0Mjc4Yjg5MDViOCIsInJvbGUiOiI2MjUwZTVmNC1hYmM4LTQ0YTAtYTlmYS00ZTlhNGExYWY0MjQiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjEsImlhdCI6MTcxNDAzMzY3NiwiZXhwIjoxNzE0MDM0NTc2LCJpc3MiOiJkaXJlY3R1cyJ9.5m1peqUVZ2eOLmwc41o_oBHdOq4kXoU5ar63p4ZzN3E';
- */    String token = Provider.of<TokenProvider>(context).token;
+    
+    var authService = Provider.of<AuthService>(context, listen: false);
+    var headers = await authService.getAuthenticatedHeaders();
 
     try {
       final response = await http.get(
         url,
-        headers: {'Authorization': 'Bearer $token','Content-Type': 'application/json'},
+        headers: headers,
       );
 
       if (response.statusCode == 200) {
@@ -78,8 +79,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             // It takes 5/6 part of the screen
             flex: 5,
             child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: _rows.isNotEmpty
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: _rows.isNotEmpty
                   ? DataTable(
                       columns: [
                         DataColumn(label: Text('ID')),
@@ -93,6 +95,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       rows: _rows,
                     )
                   : const CircularProgressIndicator(),
+              ),
             ),
           ),
         ],

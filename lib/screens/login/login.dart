@@ -1,20 +1,21 @@
-import 'package:admin/services/login.service.dart';
+import 'package:admin/models/credentials.dart';
+import 'package:admin/screens/expenses/expenses.dart';
+import 'package:admin/services/auth.service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController _usernameController = TextEditingController(text: 'mathis.loup@my-digital-school.org');
-  final TextEditingController _passwordController = TextEditingController(text: 'azerty123');
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
-  final LoginService _loginService = LoginService();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-  void _login() async {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-
-    dynamic token = await _loginService.login(username, password);
-
-  print(token);
-  }
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController =
+      TextEditingController(text: 'mathis.loup@my-digital-school.org');
+  final TextEditingController _passwordController =
+      TextEditingController(text: 'azerty123');
 
   @override
   Widget build(BuildContext context) {
@@ -50,5 +51,30 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _login() {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    var authService = Provider.of<AuthService>(context, listen: false);
+
+    var credential = Credential(email: username, password: password);
+
+print('Attemps to connect with : $password and $username');
+    authService.login(credential).then((message) {
+      if (authService.isLoggedIn) {
+        // Redirect logic here after successful login
+        // For example, navigate to another screen
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesScreen()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 3),
+            content: Text("Failed to login"),
+          ),
+        );
+      }
+    });
   }
 }

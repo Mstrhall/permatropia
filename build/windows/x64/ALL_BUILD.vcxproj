@@ -144,6 +144,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{C5A9B038-0DD9-3E60-8CFD-A647EEDD3574}</Project>
       <Name>FAP</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\mathi\Documents\Permatropia Desktop\permatropia\permatropia\build\windows\x64\plugins\flutter_secure_storage_windows\flutter_secure_storage_windows_plugin.vcxproj">
+      <Project>{3EACCFA5-97DD-3F6E-A73A-A3D36B85C20F}</Project>
+      <Name>flutter_secure_storage_windows_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\mathi\Documents\Permatropia Desktop\permatropia\permatropia\build\windows\x64\flutter\flutter_wrapper_app.vcxproj">
       <Project>{71B9DFD9-D885-3C41-965D-D2481B72DB56}</Project>
       <Name>flutter_wrapper_app</Name>

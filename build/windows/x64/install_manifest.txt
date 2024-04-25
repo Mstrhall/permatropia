@@ -1,5 +1,6 @@
 C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/data/icudtl.dat
 C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/flutter_windows.dll
+C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/flutter_secure_storage_windows_plugin.dll
 C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.bin
 C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.json
 C:/Users/mathi/Documents/Permatropia Desktop/permatropia/permatropia/build/windows/x64/runner/Debug/data/flutter_assets/assets/icons/Documents.svg

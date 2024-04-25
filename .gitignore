@@ -139,3 +139,11 @@ ios/Pods/
 *.perspectivev3
 *.xcworkspace
 *.xcuserstate
+
+
+windows/
+android/
+ios/
+linux/
+macos/
+web/
