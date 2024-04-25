@@ -1,0 +1,141 @@
+# IntelliJ IDEA files
+.idea/
+
+.env
+
+# Android
+/build/
+# Add to ignore generated Android files
+android/app/build/
+android/build/
+android/gradle/
+android/.gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+
+# iOS
+Pods/
+# Add to ignore generated iOS files
+ios/Pods/
+ios/Podfile.lock
+ios/Podfile.lock.lock
+ios/Podfile.next
+ios/.symlinks/
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/App.framework
+ios/Flutter/App.framework.dSYM
+ios/Flutter/App.flx
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/FlutterMacOS.framework/
+ios/Flutter/FlutterMacOS.framework.dSYM/
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS
+.DS_Store
+# Add to ignore build directory for macOS
+macos/Flutter/build/
+macos/Flutter/Flutter.xcconfig
+
+# VS Code files
+.vscode/
+*.code-workspace
+
+# Android Studio and IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# macOS specific files
+.DS_Store
+
+# Flutter create files
+/flutter_project.iml
+
+# Dart-specific
+**/analysis_options.lock
+**/analysis_options.yaml
+
+# pubspec.lock file
+pubspec.lock
+
+# iOS development pods (CocoaPods)
+ios/Pods/
+
+# Flutter SDK
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.dart_tool.version
+
+# Packages
+**/packages/
+.packages
+
+# Flutter web output directory
+**/web/index.html
+**/web/assets/
+
+# Build artifacts
+/build/
+!**/build/web/
+
+# Dependency directories
+/bin/
+/android/
+/ios/
+/packages/
+
+# Flutter build cache
+.dart_tool/build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-plugins-metadata
+.flutter-plugins-version
+.flutter-plugins.dart
+.flutter-plugins.pub-cache
+.flutter-plugins.sdk-version
+.flutter-version
+
+# flutter_gallery App
+/app/ios/Flutter/Flutter.podspec
+/app/ios/Flutter/Generated.xcconfig
+/app/ios/Flutter/flutter_assets
+/app/ios/Flutter/flutter_export_environment.sh
+/app/ios/Runner/GeneratedPluginRegistrant.*
+
+# webdev artifacts
+/packages/flutter_tools/lib/src/build_runner/
+
+# Android studio generated files
+/android/.gradle
+/android/app/.cxx/
+/android/capture/
+/android/gradle/
+/android/gradlew
+/android/local.properties
+/android/*.iml
+
+# Android Tooling
+/*.android
+/.gradle
+/.idea
+/*.keystore
+/gradle/
+
+# iOS tooling
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+*.xcworkspace
+*.xcuserstate
