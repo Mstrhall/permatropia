@@ -1,3 +1,6 @@
+import 'package:admin/screens/dashboard/dashboard_screen.dart';
+import 'package:admin/screens/expenses.dart';
+import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,12 +20,12 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashboard.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen()));},
           ),
           DrawerListTile(
             title: "Transaction",
             svgSrc: "assets/icons/menu_tran.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesScreen()));},
           ),
           DrawerListTile(
             title: "Task",

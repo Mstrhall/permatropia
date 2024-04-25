@@ -1,0 +1,1 @@
+ C:\\Users\\mathi\\Documents\\Permatropia\ Desktop\\permatropia\\permatropia\\.dart_tool\\flutter_build\\a21b365441362e99e2b4b6de953858c1\\native_assets.yaml: 
