@@ -17,6 +17,7 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> {
   List<List<dynamic>> _rows = [];
+  bool _isLoading = true; // Variable pour le chargement
 
   @override
   void initState() {
@@ -25,6 +26,10 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true; // Mettre isLoading à true au début de la requête
+    });
+
     final url = Uri.parse(
         'https://permatropia-grp2.webturtle.fr/items/transactions?filter[transaction_type][_eq]=income');
     var authService = Provider.of<AuthService>(context, listen: false);
@@ -57,6 +62,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 record['service_dates'],
               ];
             }));
+            _isLoading = false; // Mettre isLoading à false une fois que les données sont chargées
           });
         }
       } else {
@@ -73,38 +79,56 @@ class _RecipeScreenState extends State<RecipeScreen> {
       appBar: AppBar(
         title: Text('Recettes'),
       ),
-      drawer: SideMenu(),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columnSpacing: MediaQuery.of(context).size.width / 5, // Centrer le tableau
-          columns: [
-            DataColumn(label: Text('ID')),
-            DataColumn(label: Text('Label')),
-            DataColumn(label: Text('Details')),
-            DataColumn(label: Text('Document ID')),
-            DataColumn(label: Text('Accounting Date')),
-            DataColumn(label: Text('User ID')),
-            DataColumn(label: Text('Share ID')),
-            DataColumn(label: Text('Quantity')),
-            DataColumn(label: Text('Unit Price')),
-            DataColumn(label: Text('Total')),
-            DataColumn(label: Text('Exercice ID')),
-            DataColumn(label: Text('Validated')),
-            DataColumn(label: Text('Service Dates')),
-          ],
-          rows: _rows.asMap().entries.map((entry) {
-            final rowIndex = entry.key;
-            final rowData = entry.value;
-            final color = (rowIndex % 2 == 0) ? Colors.white : Colors.blue; // Alternance de couleur de fond
-            return DataRow(
-              color: MaterialStateProperty.all<Color>(color),
-              cells: rowData
-                  .map((data) => DataCell(Text(data.toString())))
-                  .toList(),
-            );
-          }).toList(),
-        ),
+      body: Row(
+        children: [
+          // Side Menu
+          SideMenu(),
+          // Main Content
+          Expanded(
+            child: _isLoading // Vérifier si les données sont en cours de chargement
+                ? Center(child: CircularProgressIndicator()) // Afficher un indicateur de chargement
+                : SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: DataTable(
+                    columnSpacing:
+                    MediaQuery.of(context).size.width / 20,
+                    dataRowHeight: 40, // Hauteur fixe pour chaque ligne
+                    columns: [
+                      DataColumn(label: Text('ID')),
+                      DataColumn(label: Text('Label')),
+                      DataColumn(label: Text('Details')),
+                      DataColumn(label: Text('Document ID')),
+                      DataColumn(
+                          label: Text('Accounting Date')),
+                      DataColumn(label: Text('User ID')),
+                      DataColumn(label: Text('Share ID')),
+                      DataColumn(label: Text('Quantity')),
+                      DataColumn(label: Text('Unit Price')),
+                      DataColumn(label: Text('Total')),
+                      DataColumn(label: Text('Exercice ID')),
+                      DataColumn(label: Text('Validated')),
+                      DataColumn(label: Text('Service Dates')),
+                    ],
+                    rows: _rows.asMap().entries.map((entry) {
+                      final rowIndex = entry.key;
+                      final rowData = entry.value;
+                      return DataRow(
+                        cells: rowData
+                            .map((data) =>
+                            DataCell(Text(data.toString())))
+                            .toList(),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

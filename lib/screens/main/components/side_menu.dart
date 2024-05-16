@@ -4,6 +4,8 @@ import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../Charge.dart';
+import '../../quotepart.dart';
 import '../../recipe/recipe.dart';
 
 class SideMenu extends StatelessWidget {
@@ -20,12 +22,7 @@ class SideMenu extends StatelessWidget {
             child: Image.asset("assets/images/logo.png"),
           ),
           DrawerListTile(
-            title: "Dashboard",
-            svgSrc: "assets/icons/menu_dashboard.svg",
-            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));},
-          ),
-          DrawerListTile(
-            title: "dépenses",
+            title: "Dépenses",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesScreen()));},
           ),
@@ -40,14 +37,14 @@ class SideMenu extends StatelessWidget {
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeScreen()));},
           ),
           DrawerListTile(
-            title: "Store",
+            title: "Quote Part",
             svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => QuotePartScreen()));},
           ),
           DrawerListTile(
-            title: "Notification",
+            title: "Charges",
             svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChargesScreen()));},
           ),
           DrawerListTile(
             title: "Profile",
