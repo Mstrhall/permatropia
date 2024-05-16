@@ -5,10 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart'; // Import the fl_chart library
-import 'dart:math' as Math;
 import 'package:admin/screens/main/components/side_menu.dart';
 
-class BudgetScreen extends StatelessWidget {
+class BudgetScreen extends StatefulWidget {
+  @override
+  _BudgetScreenState createState() => _BudgetScreenState();
+}
+
+class _BudgetScreenState extends State<BudgetScreen> {
+  int _selectedYear = 2022;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,27 +29,54 @@ class BudgetScreen extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Center(
-              child: FutureBuilder(
-                future: getCategories(context),
-                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            // Display the pie chart
-                            PieChartSample2(categories: snapshot.data),
-                          ],
-                        ),
-                      );
-                    }
-                  }
-                },
+              child: Column(
+                children: [
+                  DropdownButton<int>(
+                    value: _selectedYear,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedYear = value!;
+                      });
+                    },
+                    items: List.generate(
+                      3,
+                      (index) => DropdownMenuItem<int>(
+                        value: 2022 + index,
+                        child: Text((2022 + index).toString()),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: getCategories(context),
+                    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          final filteredCategories = snapshot.data!.where((category) {
+                            final transactions = category['transactions'] as List<dynamic>;
+                            return transactions.any((transaction) {
+                              final accountingDate = transaction['accounting_date'] as String;
+                              final year = int.parse(accountingDate.substring(0, 4));
+                              return year == _selectedYear;
+                            });
+                          }).toList();
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                // Display the pie chart
+                                PieChartSample2(categories: filteredCategories),
+                              ],
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -59,7 +92,7 @@ class BudgetScreen extends StatelessWidget {
 
   Future<List<dynamic>> getTotalByCategories(BuildContext context) async {
     final url = Uri.parse(
-        'https://permatropia-grp1.webturtle.fr/items/sections?fields=id,label,transactions.total&_aggregation=transactions.total:sum');
+        'https://permatropia-grp1.webturtle.fr/items/sections?fields=id,label,transactions.total,transactions.accounting_date&_aggregation=transactions.total:sum');
 
     var authService = Provider.of<AuthService>(context, listen: false);
     var headers = await authService.getAuthenticatedHeaders();
@@ -89,13 +122,13 @@ class PieChartSample2 extends StatelessWidget {
 
   // Define fixed colors for the pie chart sections
   final List<Color> sectionColors = [
-    Colors.blue,
-    Colors.green,
-    Colors.red,
-    Colors.orange,
-    Colors.purple,
-    Colors.yellow,
-    Colors.pink,
+    const Color.fromRGBO(33, 150, 243, 1),
+    Color.fromRGBO(76, 175, 80, 1),
+    const Color.fromRGBO(244, 67, 54, 1),
+    const Color.fromRGBO(255, 152, 0, 1),
+    const Color.fromRGBO(156, 39, 176, 1),
+    const Color.fromRGBO(255, 235, 59, 1),
+    const Color.fromRGBO(233, 30, 99, 1),
     Colors.teal
   ];
 
