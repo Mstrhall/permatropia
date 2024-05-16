@@ -61,12 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var credential = Credential(email: username, password: password);
 
-print('Attemps to connect with : $password and $username');
+    print('Attemps to connect with : $password and $username');
     authService.login(credential).then((message) {
       if (authService.isLoggedIn) {
         // Redirect logic here after successful login
         // For example, navigate to another screen
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ExpensesScreen()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
