@@ -1,41 +1,53 @@
 import 'dart:convert';
+import 'package:admin/responsive.dart';
 import 'package:admin/services/auth.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart'; // Import the fl_chart library
 import 'dart:math' as Math;
+import 'package:admin/screens/main/components/side_menu.dart';
 
 class BudgetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Budget Screen'),
-      ),
-      body: Center(
-        child: FutureBuilder(
-          future: getCategories(context),
-          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      // Display the pie chart
-                      PieChartSample2(categories: snapshot.data),
-                    ],
-                  ),
-                );
-              }
-            }
-          },
-        ),
+      drawer: SideMenu(),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (Responsive.isDesktop(context))
+            Expanded(
+              child: SideMenu(), // Display side menu for desktop
+            ),
+          Expanded(
+            flex: 5,
+            child: Center(
+              child: FutureBuilder(
+                future: getCategories(context),
+                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            // Display the pie chart
+                            PieChartSample2(categories: snapshot.data),
+                          ],
+                        ),
+                      );
+                    }
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -90,8 +102,8 @@ class PieChartSample2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 800,
-      height: 800,
+      width: 700,
+      height: 700,
       child: Row(
         children: [
           Expanded(
