@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Charge.dart';
+import '../../detailTransaction.dart';
 import '../../quotepart.dart';
 import '../../recipe/recipe.dart';
 
@@ -49,7 +50,7 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DetailUserPage()));},
           ),
           DrawerListTile(
             title: "Settings",
