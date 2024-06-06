@@ -1,3 +1,4 @@
+import 'package:admin/screens/ManageSurveys.dart';
 import 'package:admin/screens/budget/budget.dart';
 import 'package:admin/screens/expenses/expenses.dart';
 import 'package:admin/screens/main/main_screen.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Charge.dart';
+import '../../CreateSurveys.dart';
 import '../../detailTransaction.dart';
 import '../../quotepart.dart';
 import '../../recipe/recipe.dart';
@@ -48,14 +50,19 @@ class SideMenu extends StatelessWidget {
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChargesScreen()));},
           ),
           DrawerListTile(
-            title: "Profile",
+            title: "Details",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DetailUserPage()));},
           ),
           DrawerListTile(
-            title: "Settings",
+            title: " Crée un Sondage",
             svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSurveyPage()));},
+          ),
+          DrawerListTile(
+            title: "Sondage",
+            svgSrc: "assets/icons/menu_setting.svg",
+            press: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ManageSurveysPage()));},
           ),
         ],
       ),

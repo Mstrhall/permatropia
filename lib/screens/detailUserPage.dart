@@ -40,7 +40,6 @@ class _DetailUserPageState extends State<DetailUserPage> {
             ElevatedButton(
               onPressed: () {
                 if (_userId != null) {
-                  // Lancer la recherche des transactions
                   FocusScope.of(context).unfocus();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Veuillez saisir un ID valide')));
@@ -49,21 +48,37 @@ class _DetailUserPageState extends State<DetailUserPage> {
               child: Text('Rechercher'),
             ),
             SizedBox(height: 20),
-            Expanded(
-              child: _userId != null
-                  ? Column(
+            _userId != null
+                ? Expanded(
+              child: Column(
                 children: [
+                  Text(
+                    'Charges',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   Expanded(
-                    child: UserTransactionsWidget(userId: _userId!, itemId: 16, title: 'charges',),
+                    child: UserTransactionsWidget(
+                      userId: _userId!,
+                      itemId: 16,
+                      title: 'Charges',
+                    ),
                   ),
                   SizedBox(height: 20),
+                  Text(
+                    'Quote-Part',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   Expanded(
-                    child: UserTransactionsWidget(userId: _userId!, itemId: 17, title: 'quotes part',),
+                    child: UserTransactionsWidget(
+                      userId: _userId!,
+                      itemId: 17,
+                      title: 'Quote-Part',
+                    ),
                   ),
                 ],
-              )
-                  : Center(child: Text('Veuillez saisir un ID pour afficher les transactions')),
-            ),
+              ),
+            )
+                : Center(child: Text('Veuillez saisir un ID pour afficher les transactions')),
           ],
         ),
       ),

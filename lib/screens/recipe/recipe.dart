@@ -17,7 +17,7 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> {
   List<List<dynamic>> _rows = [];
-  bool _isLoading = true; // Variable pour le chargement
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   Future<void> _fetchData() async {
     setState(() {
-      _isLoading = true; // Mettre isLoading à true au début de la requête
+      _isLoading = true;
     });
 
     final url = Uri.parse(
@@ -62,7 +62,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 record['service_dates'],
               ];
             }));
-            _isLoading = false; // Mettre isLoading à false une fois que les données sont chargées
+            _isLoading = false;
           });
         }
       } else {
@@ -85,18 +85,18 @@ class _RecipeScreenState extends State<RecipeScreen> {
           SideMenu(),
           // Main Content
           Expanded(
-            child: _isLoading // Vérifier si les données sont en cours de chargement
-                ? Center(child: CircularProgressIndicator()) // Afficher un indicateur de chargement
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
                 : SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
+                  width: MediaQuery.of(context).size.width * 1.4,
                   child: DataTable(
                     columnSpacing:
                     MediaQuery.of(context).size.width / 20,
-                    dataRowHeight: 40, // Hauteur fixe pour chaque ligne
+                    dataRowHeight:40,
                     columns: [
                       DataColumn(label: Text('ID')),
                       DataColumn(label: Text('Label')),

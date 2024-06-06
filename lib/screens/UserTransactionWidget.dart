@@ -1,97 +1,80 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
+import '../models/transaction.dart';
 
-import '../services/auth.service.dart';
-
-class UserTransactionsWidget extends StatefulWidget {
+class UserTransactionsWidget extends StatelessWidget {
   final int userId;
+  final int itemId;
+  final String title;
 
-  const UserTransactionsWidget({Key? key, required this.userId}) : super(key: key);
+  UserTransactionsWidget({required this.userId, required this.itemId, required this.title});
 
-  @override
-  _UserTransactionsWidgetState createState() => _UserTransactionsWidgetState();
-}
-
-class _UserTransactionsWidgetState extends State<UserTransactionsWidget> {
-  List<dynamic> _shares = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchTransactions();
-  }
-
-  Future<void> _fetchTransactions() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    final url = Uri.parse('https://permatropia-grp2.webturtle.fr/items/shares?filter[user_id][_eq]=${widget.userId}');
-    var authService = Provider.of<AuthService>(context, listen: false);
-    var headers = await authService.getAuthenticatedHeaders();
-
-    try {
-      final response = await http.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['data'] is List) {
-          setState(() {
-            _shares = data['data'];
-            _isLoading = false;
-          });
-        } else {
-          // Affichez un message d'erreur ou gérez la situation de manière appropriée
-          print('Error: Data is not a List');
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      } else {
-        throw Exception('Failed to fetch transactions');
-      }
-    } catch (e) {
-      print('Error: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
+  double calculateTotal(List<Transaction> transactions) {
+    return transactions.fold(0.0, (sum, transaction) => sum + transaction.total!);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? Center(child: CircularProgressIndicator())
-        : ListView.builder(
-      itemCount: _shares.length,
-      itemBuilder: (context, index) {
-        final share = _shares[index];
-        final shareId = share['id'];
-        final transactions = share['transactions'] as List<dynamic>;
+    return FutureBuilder<List<Transaction>>(
+      future: Transaction.fetchTransactions(userId, itemId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Erreur: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('Aucune transaction trouvée'));
+        } else {
+          List<Transaction> transactions = snapshot.data!;
+          double total = calculateTotal(transactions);
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Share ID: $shareId'),
-            if (transactions.isNotEmpty)
-              DataTable(
-                columns: [
-                  DataColumn(label: Text('Transaction ID')),
-                  DataColumn(label: Text('Amount')),
-                ],
-                rows: transactions.map((transaction) {
-                  final transactionId = transaction['id'];
-                  return DataRow(cells: [
-                    DataCell(Text(transactionId.toString())),
-                  ]);
-                }).toList(),
-              ),
-            SizedBox(height: 10),
-          ],
-        );
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Total: \$${total.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactions[index];
+                      return Card(
+                        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text(
+                              'Transaction ID: ${transaction.id}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Label: ${transaction.label}'),
+                                Text('Details: ${transaction.details}'),
+                                Text('Document ID: ${transaction.documentId}'),
+                                Text('Date: ${transaction.accountingDate}'),
+                                Text('Montant: ${transaction.total}'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
       },
     );
   }

@@ -99,13 +99,13 @@ class _QuotePartScreenState extends State<QuotePartScreen> {
                     DataCell(Column(
                       children: [
                         Text('${quotePart['payment_percentage'].toStringAsFixed(2)}%'),
-                        SizedBox(height: 5),
+                        SizedBox(height:1),
                         LinearProgressIndicator(
                           value: (quotePart['payment_percentage'] / 100),
                           backgroundColor: Colors.grey,
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 0.5),
                         Text('Total Paid: ${quotePart['total_paid']}'), // Affichage de la valeur totale payée
                       ],
                     )),
